@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DigiSathi Nepal</title>
+<style>
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; background: #f0f4f8; color: #2c3e50; line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Navbar */
+  nav {
+    background: #2980b9;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    z-index: 1100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  nav .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li {
+    display: inline-block;
+  }
+  nav ul li a {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 0;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  nav ul li a:hover,
+  nav ul li a.active {
+    border-bottom-color: #f39c12;
+  }
+
+  /* Header (reduced to hero) */
+  header {
+    padding: 120px 20px 60px 20px; /* padding-top accounts for fixed nav */
+    text-align: center;
+    background: linear-gradient(135deg, #2980b9, #3498db);
+    color: white;
+  }
+  header h1 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 3rem;
+    letter-spacing: 3px;
+  }
+  header p {
+    margin-top: 10px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    opacity: 0.85;
+  }
+
+  main {
+    max-width: 1000px;
+    margin: 40px auto 80px auto;
+    padding: 0 20px;
+  }
+  section {
+    margin-bottom: 60px;
+  }
+  h2 {
+    font-size: 2.4rem;
+    margin-bottom: 25px;
+    color: #2980b9;
+    border-bottom: 4px solid #f39c12;
+    padding-bottom: 8px;
+    max-width: fit-content;
+  }
+  p {
+    font-size: 1.15rem;
+  }
+
+  /* Services List */
+  ul.services {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  ul.services li {
+    background: white;
+    flex: 1 1 45%;
+    padding: 25px 25px;
+    border-radius: 14px;
+    box-shadow: 0 7px 20px rgba(243, 156, 18, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+  ul.services li:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px rgba(243, 156, 18, 0.4);
+  }
+  ul.services li svg {
+    width: 38px;
+    height: 38px;
+    fill: #f39c12;
+    flex-shrink: 0;
+  }
+  ul.services li span {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #34495e;
+  }
+
+  /* Demo Projects Cards */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 30px;
+  }
+  .project-card {
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 8px 28px rgba(41, 128, 185, 0.2);
+    padding: 20px 25px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(41, 128, 185, 0.35);
+  }
+  .project-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #2980b9;
+  }
+  .project-desc {
+    font-size: 1rem;
+    flex-grow: 1;
+    color: #34495e;
+  }
+  .project-link {
+    margin-top: 18px;
+    font-weight: 600;
+    color: #f39c12;
+    align-self: flex-start;
+    transition: color 0.3s ease;
+  }
+  .project-link:hover {
+    color: #d35400;
+    text-decoration: underline;
+  }
+
+  /* Contact form */
+  form {
+    background: white;
+    padding: 35px 30px;
+    border-radius: 18px;
+    box-shadow: 0 14px 42px rgba(41, 128, 185, 0.15);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 16px 16px;
+    margin: 18px 0 30px 0;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    font-size: 1.1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+  }
+  input:focus, textarea:focus {
+    border-color: #f39c12;
+    outline: none;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 130px;
+  }
+  button {
+    background: #f39c12;
+    color: white;
+    padding: 16px 34px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+    display: block;
+    margin: 0 auto;
+  }
+  button:hover {
+    background: #d35400;
+  }
+
+  /* Message styling */
+  #form-message {
+    font-weight: 700;
+    text-align: center;
+    margin-top: -15px;
+    margin-bottom: 12px;
+  }
+  #form-message.success {
+    color: #27ae60;
+  }
+  #form-message.error {
+    color: #e74c3c;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 22px 10px;
+    font-size: 1rem;
+    color: #7f8c8d;
+    border-top: 1px solid #ddd;
+    margin-top: 70px;
+    user-select: none;
+  }
+
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(44, 62, 80, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3000;
+  }
+  .modal.active {
+    visibility: visible;
+    opacity: 1;
+  }
+  .modal-content {
+    background: white;
+    padding: 36px 44px;
+    border-radius: 22px;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 18px 48px rgba(44, 62, 80, 0.2);
+  }
+  .modal-content h3 {
+    margin: 0 0 18px 0;
+    color: #27ae60;
+    font-size: 1.8rem;
+  }
+  .modal-content p {
+    font-size: 1.15rem;
+    margin-bottom: 22px;
+  }
+  .modal-content button {
+    margin-top: 10px;
+    background: #f39c12;
+    padding: 14px 30px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  .modal-content button:hover {
+    background: #d35400;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    ul.services li {
+      flex: 1 1 100%;
+    }
+    main {
+      margin: 30px auto 60px auto;
+    }
+  }
+  @media (max-width: 480px) {
+    nav {
+      padding: 0 16px;
+    }
+    nav ul {
+      gap: 15px;
+    }
+    nav .logo {
+      font-size: 1.3rem;
+    }
+    header h1 {
+      font-size: 2.2rem;
+    }
+    header p {
+      font-size: 1rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+    button {
+      width: 100%;
+      padding: 16px 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">DigiSathi Nepal</div>
+  <ul>
+    <li><a href="#who-we-are" class="nav-link active">About</a></li>
+    <li><a href="#what-we-do" class="nav-link">Services</a></li>
+    <li><a href="#projects" class="nav-link">Projects</a></li>
+    <li><a href="#contact" class="nav-link">Contact</a></li>
+  </ul>
+</nav>
+
+<header>
+  <h1>DigiSathi Nepal</h1>
+  <p>Smart IT Solutions for Your Business</p>
+</header>
+
+<main>
+  <section id="who-we-are">
+    <h2>Who We Are</h2>
+    <p>Your local IT partner specializing in custom software, websites, and digital marketing for clinics, furniture makers, and machinery suppliers.</p>
+  </section>
+
+  <section id="what-we-do">
+    <h2>What We Do</h2>
+    <ul class="services" aria-label="Our Services">
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 5v6c0 5 4 9 8 9s8-4 8-9V5l-8-3z"/></svg>
+        <span>Custom Software</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v2H3V4zm2 4h14v2H5V8zm-2 4h18v2H3v-2zm2 4h14v2H5v-2z"/></svg>
+        <span>Website Development</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM3 19.5V17h18v2.5c0 1.38-1.12 2.5-2.5 2.5H5.5c-1.38 0-2.5-1.12-2.5-2.5z"/></svg>
+        <span>Digital Marketing</span>
+      </li>
+      <li>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 8h-2V6a5 5 0 0 0-10 0v2H3v12h18V8h-4zm-8 0V6a3 3 0 0 1 6 0v2h-6z"/></svg>
+        <span>IT Support</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2>Demo Projects</h2>
+    <div class="projects-grid" aria-label="Demo projects">
+      <div class="project-card" tabindex="0">
+        <div class="project-title">Clinic Appointment System</div>
+        <div class="project-desc">A custom software to manage patient appointments and doctor schedules for local clinics.</div>
+        <a class="project-link" href="https://github.com/yourusername/clinic-appointment" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </div>
+      <div class="project-card" tabindex="0">
+        <div class="project-title">Furniture Store Website</div>
+        <div class="project-desc">A sleek, responsive website showcasing furniture products with an integrated online order system.</div>
+        <a class="project-link" href="https://github.com/yourusername/furniture-store" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </div>
+      <div class="project-card" tabindex="0">
+        <div class="project-title">Machinery Inventory Tracker</div>
+        <div class="project-desc">Web app for tools and machinery suppliers to track stock levels and generate reports.</div>
+        <a class="project-link" href="https://github.com/yourusername/machinery-inventory" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </div>
+      <div class="project-card" tabindex="0">
+        <div class="project-title">Digital Marketing Dashboard</div>
+        <div class="project-desc">A dashboard to track social media campaigns and analytics with real-time data.</div>
+        <a class="project-link" href="https://github.com/yourusername/digital-marketing-dashboard" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form id="contact-form" novalidate>
+      <input type="text" id="name" name="name" placeholder="Your Name" required autocomplete="off" />
+      <input type="email" id="email" name="email" placeholder="Your Email" required autocomplete="off" />
+      <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+      <div id="form-message"></div>
+    </form>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 DigiSathi Nepal | Phone: +977-98XXXXXXXX | Email: info@digisathi.com.np
+</footer>
+
+<!-- Success Modal -->
+<div class="modal" id="success-modal" aria-hidden="true">
+  <div class="modal-content" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+    <h3 id="modal-title">Thank you!</h3>
+    <p>Your message has been sent successfully.</p>
+    <button id="close-modal">Close</button>
+  </div>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+<script>
+  emailjs.init('YOUR_EMAILJS_USER_ID'); // Replace with your EmailJS user ID
+
+  // Highlight nav links on scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    const scrollY = window.pageYOffset + 80; // 80px offset for fixed nav
+
+    sections.forEach(section => {
+      if (scrollY >= section.offsetTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href').substring(1) === current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Contact form submission
+  const form = document.getElementById('contact-form');
+  const formMessage = document.getElementById('form-message');
+  const modal = document.getElementById('success-modal');
+  const closeModalBtn = document.getElementById('close-modal');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    formMessage.textContent = '';
+    formMessage.className = '';
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if(!name || !email || !message) {
+      formMessage.textContent = 'Please fill all fields.';
+      formMessage.className = 'error';
+      return;
+    }
+
+    emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+      from_name: name,
+      from_email: email,
+      message: message
+    }).then(() => {
+      form.reset();
+      formMessage.textContent = '';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+    }).catch((error) => {
+      formMessage.textContent = 'Oops! Something went wrong. Please try again later.';
+      formMessage.className = 'error';
+      console.error('EmailJS error:', error);
+    });
+  });
+
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+  });
+
+  // Close modal when clicking outside modal content
+  window.addEventListener('click', e => {
+    if(e.target === modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  });
+</script>
+<script>
+  const sections = document.querySelectorAll("section");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.remove("active");
+            if (link.getAttribute("href").substring(1) === entry.target.id) {
+              link.classList.add("active");
+            }
+          });
+        }
+      });
+    },
+    {
+      threshold: 0.6,
+    }
+  );
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+</script>
+</body>
+</html>
